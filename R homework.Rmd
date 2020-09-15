@@ -1,0 +1,33 @@
+---
+title: "Developing Data Products - Week 2 Assigment"
+author: "Victor Coelho"
+date: "14 September 2020"
+output: html_document
+---
+#Location and Info of the new 7 world wonders and 10 pyramids
+```{r data, echo=FALSE}
+Pyramids_data <- data.frame(lat= c(29.979225, 19.692243, 13.412438, 29.850044, 20.684281, 41.876489, 17.045449, 32.009036, 10.782783, 29.4823), lng =c(31.134213, -98.843514, 103.866996, 31.216679, -88.567779, 12.480898, -96.767493, 48.521558, 79.131846, 31.1229), link = c("<a href='https://en.wikipedia.org/wiki/Giza_pyramid_complex/'> Pyramid of Giza </a>","<a href='https://en.wikipedia.org/wiki/Pyramid_of_the_Sun/'> Pyramid of The Sun</a>","<a href='https://en.wikipedia.org/wiki/Angkor_Wat/'> Angkor Wat</a>", "<a href='https://en.wikipedia.org/wiki/Saqqara/'> Saqqara</a>", "<a href='https://en.wikipedia.org/wiki/Chichen_Itza/'> Chichen Itza</a>", "<a href ='https://en.wikipedia.org/wiki/Pyramid_of_Cestius/'> Pyramid of Cestius</a>", "<a href='https://en.wikipedia.org/wiki/Monte_Alb%C3%A1n/'> Monte Alban</a>", "<a href='https://en.wikipedia.org/wiki/Chogha_Zanbil/'> Chogha_zanbil</a>", "<a href='https://en.wikipedia.org/wiki/Brihadisvara_Temple,_Thanjavur/' Brihadisvara Temle</a>", "<a href='https://en.wikipedia.org/wiki/Dahshur/'> ahsur</a>"), names = c("Giza","Teotihuacan","Angkor Wat","Saqqara", "Chichen Itza", "Cestius", "Monte Alban", "Tchongha zanbil", "Brihadisvara", "Dahshur"))
+Wonders_data <- data.frame(names = c("Taj Mahal", "Colesseum", "Chichen Itza", "Machu Pichu", "Christ The Redemeer", "Petra", "Great Wall of China"), lat=c(27.175164, 41.890194, 20.684281, -13.163144, -22.951923, 30.328451, 40.431900), lng=c(78.042153, 12.492220, -88.567779, -72.544961, -43.210489, 35.444360, 116.570375), link=c("<a href='https://en.wikipedia.org/wiki/Taj_Mahal/'> Taj Mahal </a>","<a href='https://en.wikipedia.org/wiki/Colosseum/'> Colosseum </a>","<a href='https://en.wikipedia.org/wiki/Chichen_Itza/'> Chichen_Itza </a>","<a href='https://en.wikipedia.org/wiki/Machu_Picchu/'> Machu Pichu </a>","<a href='https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)/'> Christ The Redeemer</a","<a href='https://en.wikipedia.org/wiki/Petra/'> Petra </a>","<a href='https://en.wikipedia.org/wiki/Great_Wall_of_China/'> Great Wall of China </a>"))
+
+Wonders_data
+Pyramids_data
+
+```
+After the data is added into frames, produced a map with leaflet adding customized icons, and hyperlink to wikipedia. This way the customer can check which amazing human construct he wants to visit and start knowing more about before choosing his travel destiny
+
+#Map with location of new World Wonders and Pyramids
+```{r setup, include=TRUE}
+
+library(leaflet)
+
+pyramidIcon <- makeIcon(iconUrl= "https://www.flaticon.com/svg/static/icons/svg/254/254211.svg", iconWidth = 31, iconHeight = 31)
+wonderIcon <- makeIcon(iconUrl= "https://icons.iconarchive.com/icons/icons8/windows-8/256/City-Statue-icon.png", iconWidth = 31, iconHeight=31)
+
+my_map <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng=(Pyramids_data$lng), lat=(Pyramids_data$lat), icon=pyramidIcon, popup=Pyramids_data$link) %>%
+  addMarkers(lng=(Wonders_data $lng), lat=(Wonders_data $lat), icon=wonderIcon, popup =Wonders_data$link)
+my_map
+```
+
+
