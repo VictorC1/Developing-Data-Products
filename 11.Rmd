@@ -1,0 +1,34 @@
+---
+title: "Week3 assigment"
+author: "Victor Coelho"
+date: "28/09/2020"
+output: html_document
+runtime: shiny
+---
+
+```{r studio, echo = FALSE}
+#
+
+library(shiny)
+library(plotly)
+library(ISLR)
+library(dplyr)
+
+ui <- fluidPage(plotlyOutput("Lag1"), plotlyOutput("Volume"))
+server <- function(input, output) {
+  output$Lag1 <- renderPlotly({
+    plot_ly(Smarket, x = ~Lag1, source = "Lag1")
+  })
+  output$Volume <- renderPlotly({
+    p <- plot_ly(Smarket, x = ~Volume, source = "Volume")
+    brush <- event_data("plotly_brushing", source = "Lag1")
+    if (is.null(brush)) return(p)
+    p %>%
+      filter(between(Lag1, brush$x[1], brush$x[2])) %>%
+      add_histogram()
+  })
+}
+shinyApp(ui, server)
+
+
+```
