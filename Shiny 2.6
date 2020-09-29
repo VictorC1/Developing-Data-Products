@@ -1,0 +1,55 @@
+Interactive graphics
+
+One of my favorite features of Shiny is the ability to create
+graphics that a user can interact with. One method you can use
+to select multiple data points on a graph is by specifying the brush argument
+in plotOutput() on the ui,R side. The following example app fits a linear model
+for the selected points and then draws a line of best fit for the resulting model.
+
+ui.R
+library(shiny)
+
+shinyUI(fluidPage(
+  titlePanel("visualize Many Models"),
+  sidebarLayout(
+    sidebarPanel(
+      h3("Slope"),
+      textOutput("slopeOut"),
+      h3(Intercept"),
+      textOutput("intOut")
+    ),
+    mainPanel(
+    plotOutput("plot1",brush = brushOpts(
+         id = "brush1"
+         ))
+    )
+  )
+))
+
+server.R
+library(shiny)
+
+shinyServer(function(input, output) {
+model <- reactive({
+  brushed_data <- brushedPoints(trees, input$brush1,
+                          xvar = "Girth", yavr = "Volume")
+         if(nrow(brushed_data) < 2){
+         return(NULL)
+         }
+         lm(Volume ~ Girth, data = brushed_data)
+        })
+        output$slopeOut <- renderText({
+        if(is.null(model()){
+        "No Model Found"
+         } else {
+         model()[1][2]
+         }
+         })
+         output$intOut <- renderText({
+         if(is.null(model())){
+         "No Model Found"
+        })
+        })
+})
+})
+  ))
